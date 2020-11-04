@@ -8,8 +8,11 @@ namespace TenmoServer.DAO
 {
     public class TransferDAO : ITransferDAO
     {
-        private string connectionString; 
-        
+        private readonly string connectionString; 
+        public TransferDAO(string dbConnectionString)
+        {
+            connectionString = dbConnectionString;
+        }
         public IList<Transfer> GetTransfers(int userID)
         {
             try
