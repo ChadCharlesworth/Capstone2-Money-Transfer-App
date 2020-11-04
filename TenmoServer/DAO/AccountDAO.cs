@@ -10,7 +10,10 @@ namespace TenmoServer.DAO
     public class AccountDAO : IAccountDAO
     {
         private readonly string connectionString;
-
+        public AccountDAO(string dbConnectionString)
+        {
+            connectionString = dbConnectionString;
+        }
         public decimal GetBalance(int userID)
         {
             decimal balance = 0;
