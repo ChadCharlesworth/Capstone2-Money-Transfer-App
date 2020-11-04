@@ -86,23 +86,23 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 1)
                 {
-
+                    //View account balance 
                 }
                 else if (menuSelection == 2)
                 {
-
+                    //View past transfers 
                 }
                 else if (menuSelection == 3)
                 {
-
+                    //View pending requests
                 }
                 else if (menuSelection == 4)
                 {
-
+                    //Send TE bucks
                 }
                 else if (menuSelection == 5)
                 {
-
+                    //request TE bucks 
                 }
                 else if (menuSelection == 6)
                 {
