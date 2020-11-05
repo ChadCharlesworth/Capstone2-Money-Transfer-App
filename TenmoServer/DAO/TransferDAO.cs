@@ -40,8 +40,9 @@ namespace TenmoServer.DAO
             
         }
 
-        public bool SendTransfer(int userID,int accountTo, decimal amount)
+        public bool SendTransfer(int transferID)
         {
+            Transfer input = GetTransfer(transferID);
             int rowsAffected = 0;
             try
             {
@@ -49,13 +50,13 @@ namespace TenmoServer.DAO
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand("UPDATE accounts set balance = (balance - @amount) where user_id = @userID");
-                    command.Parameters.AddWithValue("@amount", amount);
-                    command.Parameters.AddWithValue("@userID", userID);
-                    if (amount > 0)
+                    command.Parameters.AddWithValue("@amount", input.Amount);
+                    command.Parameters.AddWithValue("@userID", input.AccountFrom);
+                    if (input.Amount > 0)
                     {
                         rowsAffected = command.ExecuteNonQuery();
                         command = new SqlCommand("UPDATE accounts set balance = (balance + @amount) where user_id = @accountTo ");
-                        command.Parameters.AddWithValue("@accountTo", accountTo);
+                        command.Parameters.AddWithValue("@accountTo", input.AccountTo);
                         rowsAffected += command.ExecuteNonQuery();
                     }
                     
@@ -68,8 +69,26 @@ namespace TenmoServer.DAO
             }
         }
 
-        public Transfer CreateTransfer()
+        public bool CreateTransfer(int accountFrom,int accountTo, decimal amount)
         {
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand command = new SqlCommand("insert into transfers(account_from,account_to,transfer_type_id, transfer_status_id) values(@accountFrom, @accountTo, 2, 2); select scope_identity(); ", conn);
+                    command.Parameters.AddWithValue("@accountFrom", accountFrom);
+                    command.Parameters.AddWithValue("@accountTo", accountTo);
+                    command.Parameters.AddWithValue("@amount", amount);
+                    int rowsAffected = command.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             
         }
 
