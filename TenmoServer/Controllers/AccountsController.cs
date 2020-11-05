@@ -50,7 +50,7 @@ namespace TenmoServer.Controllers
         [HttpPost("transfer")]
         public ActionResult<Transfer> TransferToUser()
         {
-            Transfer transfer = transferDAO.SendTransfer(); 
+            Transfer transfer = transferDAO.CreateTransfer(); 
         }
     }
 }

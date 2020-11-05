@@ -88,7 +88,7 @@ namespace TenmoClient
                 Console.WriteLine($"{user.UserId}           {user.Username}");
             }
             Console.WriteLine($"-----------------");
-            Console.WriteLine($"Enter ___ of user you are sending to");
+            Console.WriteLine($"Enter ID of user you are sending to");
             int accountTo = int.Parse(Console.ReadLine());
             Console.WriteLine($"Enter amount: ");
             decimal amount = decimal.Parse(Console.ReadLine()); 
