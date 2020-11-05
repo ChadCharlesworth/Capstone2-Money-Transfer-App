@@ -40,7 +40,11 @@ namespace TenmoServer.DAO
             
         }
 
+<<<<<<< HEAD
         public bool SendTransfer(int userID, decimal amount)
+=======
+        public bool SendTransfer(int userID,int accountTo, decimal amount)
+>>>>>>> 3b237ae39b0c58e9bc32208963ec6c8182f0b9a3
         {
             int rowsAffected = 0;
             try
@@ -48,6 +52,7 @@ namespace TenmoServer.DAO
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
+<<<<<<< HEAD
                     SqlCommand command = new SqlCommand("UPDATE accounts set balance = (balance + @amount) where user_id = @userID ");
                     command.Parameters.AddWithValue("@amount", amount);
                     if(amount > 0)
@@ -56,6 +61,48 @@ namespace TenmoServer.DAO
                     }
 
                     return (rowsAffected > 0);
+=======
+                    SqlCommand command = new SqlCommand("UPDATE accounts set balance = (balance - @amount) where user_id = @userID");
+                    command.Parameters.AddWithValue("@amount", amount);
+                    command.Parameters.AddWithValue("@userID", userID);
+                    if (amount > 0)
+                    {
+                        rowsAffected = command.ExecuteNonQuery();
+                        command = new SqlCommand("UPDATE accounts set balance = (balance + @amount) where user_id = @accountTo ");
+                        command.Parameters.AddWithValue("@accountTo", accountTo);
+                        rowsAffected += command.ExecuteNonQuery();
+                    }
+                    
+                    return (rowsAffected > 1);
+>>>>>>> 3b237ae39b0c58e9bc32208963ec6c8182f0b9a3
+                }
+            }
+            catch (Exception)
+            {
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3b237ae39b0c58e9bc32208963ec6c8182f0b9a3
+                throw;
+            }
+        }
+
+        public Transfer GetTransfer(int transferID)
+        {
+            Transfer transfer = new Transfer();
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand command = new SqlCommand("select * from transfers where transfer_id = @transferID");
+                    command.Parameters.AddWithValue("@transferID", transferID);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        transfer = GetTransferFromReader(reader);
+                    }
+
                 }
             }
             catch (Exception)
@@ -63,11 +110,7 @@ namespace TenmoServer.DAO
 
                 throw;
             }
-        }
-
-        public Transfer ViewTransferDetails(int transferID, string from, string to, string type, string status, decimal amount)
-        {
-            throw new NotImplementedException();
+            return transfer;
         }
 
         private Transfer GetTransferFromReader(SqlDataReader reader)

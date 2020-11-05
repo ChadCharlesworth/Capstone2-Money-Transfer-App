@@ -10,9 +10,9 @@ namespace TenmoServer.DAO
     {
         IList<Transfer> GetTransfers(int userID);
 
-        Transfer ViewTransferDetails(int transferID, string from, string to, string type, string status, decimal amount);
+        Transfer GetTransfer(int transferID);
 
-        Transfer SendTransfer(int userID, string name, decimal amount); 
+        bool SendTransfer(int userID, int accountTo, decimal amount); 
 
     }
 }
