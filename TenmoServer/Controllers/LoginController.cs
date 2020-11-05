@@ -12,12 +12,16 @@ namespace TenmoServer.Controllers
         private readonly ITokenGenerator tokenGenerator;
         private readonly IPasswordHasher passwordHasher;
         private readonly IUserDAO userDAO;
+        private readonly ITransferDAO transferDAO;
+        private readonly IAccountDAO accountDAO;
 
-        public LoginController(ITokenGenerator _tokenGenerator, IPasswordHasher _passwordHasher, IUserDAO _userDAO)
+        public LoginController(ITokenGenerator _tokenGenerator, IPasswordHasher _passwordHasher, IUserDAO _userDAO, ITransferDAO _transferDAO, IAccountDAO _accountDAO)
         {
             tokenGenerator = _tokenGenerator;
             passwordHasher = _passwordHasher;
             userDAO = _userDAO;
+            transferDAO = _transferDAO;
+            accountDAO = _accountDAO;
         }
 
         [HttpPost]
