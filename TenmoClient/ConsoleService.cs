@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using TenmoClient.Data;
+using TenmoServer.Models;
 
 namespace TenmoClient
 {
     public class ConsoleService
     {
+        private static readonly AccountService accountService = new AccountService();
+
         /// <summary>
         /// Prompts for transfer ID to view, approve, or reject
         /// </summary>
@@ -27,13 +30,13 @@ namespace TenmoClient
             }
         }
 
-        public LoginUser PromptForLogin()
+        public Data.LoginUser PromptForLogin()
         {
             Console.Write("Username: ");
             string username = Console.ReadLine();
             string password = GetPasswordFromConsole("Password: ");
 
-            LoginUser loginUser = new LoginUser
+            Data.LoginUser loginUser = new Data.LoginUser
             {
                 Username = username,
                 Password = password
@@ -72,6 +75,26 @@ namespace TenmoClient
             return pass;
         }
 
-       
+        public void PrintOutAllUsers()
+        {
+            List<User> users = new List<User>();
+            users = accountService.GetUsers();
+            Console.WriteLine($"----------------------");
+            Console.WriteLine($"Users");
+            Console.WriteLine($"ID           Name");
+            Console.WriteLine($"----------------------");
+            foreach (User user in users)
+            {
+                Console.WriteLine($"{user.UserId}           {user.Username}");
+            }
+            Console.WriteLine($"-----------------");
+            Console.WriteLine($"Enter ___ of user you are sending to");
+            int accountTo = int.Parse(Console.ReadLine());
+            Console.WriteLine($"Enter amount: ");
+            decimal amount = decimal.Parse(Console.ReadLine()); 
+
+        }
+
+
     }
 }

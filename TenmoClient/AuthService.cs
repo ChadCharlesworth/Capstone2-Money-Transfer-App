@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.Collections.Generic;
 using TenmoClient.Data;
 
 namespace TenmoClient
@@ -69,12 +70,6 @@ namespace TenmoClient
                 return response.Data;
             }
         }
-        public decimal BalanceAmount()
-        {
-            RestRequest request = new RestRequest(API_BASE_URL + "api/accounts");
-            IRestResponse<decimal> response = client.Get<decimal>(request);
-
-            return response.Data;
-        }
+        
     }
 }

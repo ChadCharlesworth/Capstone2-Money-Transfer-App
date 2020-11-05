@@ -8,6 +8,7 @@ namespace TenmoClient
     {
         private static readonly ConsoleService consoleService = new ConsoleService();
         private static readonly AuthService authService = new AuthService();
+        private static readonly AccountService accountService = new AccountService(); 
 
         static void Main(string[] args)
         {
@@ -87,7 +88,7 @@ namespace TenmoClient
                 else if (menuSelection == 1)
                 {
                     //View account balance 
-                    Console.WriteLine($"Your current account balance is: {authService.BalanceAmount():C2}");
+                    Console.WriteLine($"Your current account balance is: {accountService.BalanceAmount():C2}");
                 }
                 else if (menuSelection == 2)
                 {
@@ -100,6 +101,7 @@ namespace TenmoClient
                 else if (menuSelection == 4)
                 {
                     //Send TE bucks
+                    consoleService.PrintOutAllUsers(); 
                 }
                 else if (menuSelection == 5)
                 {
