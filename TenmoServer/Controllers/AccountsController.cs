@@ -25,7 +25,7 @@ namespace TenmoServer.Controllers
             transferDAO = _transferDAO;
             accountDAO = _accountDAO;
         }
-        
+
         [HttpGet]
         public ActionResult<decimal> GetBalance()
         {
@@ -37,7 +37,20 @@ namespace TenmoServer.Controllers
 
             }
             else return Forbid();
-            
+
+        }
+
+        [HttpGet("users")]
+        public List<User> GetUsers()
+        {
+            List<User> users = userDAO.GetUsers();
+            return users; 
+        }  
+        
+        [HttpPost("transfer")]
+        public ActionResult<Transfer> TransferToUser()
+        {
+            Transfer transfer = transferDAO.SendTransfer(); 
         }
     }
 }
