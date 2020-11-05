@@ -3,7 +3,7 @@ using TenmoServer.Models;
 
 namespace TenmoServer.DAO
 {
-    interface IAccountDAO
+   public  interface IAccountDAO
     {
         IList<Account> GetAccounts(int userID);
 
