@@ -68,6 +68,11 @@ namespace TenmoServer.DAO
             }
         }
 
+        public Transfer CreateTransfer()
+        {
+            
+        }
+
         public Transfer GetTransfer(int transferID)
         {
             Transfer transfer = new Transfer();
