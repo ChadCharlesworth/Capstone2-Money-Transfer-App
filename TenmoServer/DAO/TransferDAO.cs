@@ -40,9 +40,29 @@ namespace TenmoServer.DAO
             
         }
 
-        public Transfer SendTransfer(int userID, string name, decimal amount)
+        public bool SendTransfer(int userID, decimal amount)
         {
-            throw new NotImplementedException();
+            int rowsAffected = 0;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("UPDATE accounts set balance = (balance + @amount) where user_id = @userID ");
+                    command.Parameters.AddWithValue("@amount", amount);
+                    if(amount > 0)
+                    {
+                        rowsAffected = command.ExecuteNonQuery();
+                    }
+
+                    return (rowsAffected > 0);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Transfer ViewTransferDetails(int transferID, string from, string to, string type, string status, decimal amount)
