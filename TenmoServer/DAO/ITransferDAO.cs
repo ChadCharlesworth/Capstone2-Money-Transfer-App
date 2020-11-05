@@ -14,7 +14,7 @@ namespace TenmoServer.DAO
 
         bool SendTransfer(int userID, int accountTo, decimal amount);
 
-        Transfer CreateTransfer(int transferID); 
+        Transfer CreateTransfer(int accountFrom, int accountTo, decimal amount); 
 
     }
 }
