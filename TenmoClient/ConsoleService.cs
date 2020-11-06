@@ -77,25 +77,34 @@ namespace TenmoClient
 
         public void PrintOutAllUsers()
         {
-            List<API_User> users = accountService.GetUsers();
-            Console.WriteLine($"----------------------");
-            Console.WriteLine($"Users");
-            Console.WriteLine($"ID           Name");
-            Console.WriteLine($"----------------------");
-            foreach (API_User user in users)
+            try
             {
-                Console.WriteLine($"{user.UserId}           {user.Username}");
+                List<API_User> users = accountService.GetUsers();
+                Console.WriteLine($"----------------------");
+                Console.WriteLine($"Users");
+                Console.WriteLine($"ID           Name");
+                Console.WriteLine($"----------------------");
+                foreach (API_User user in users)
+                {
+                    Console.WriteLine($"{user.UserId}           {user.Username}");
+                }
+                Console.WriteLine($"-----------------");
+                Console.WriteLine($"Enter ID of user you are sending to");
+                int accountTo = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Enter amount: ");
+                decimal amount = decimal.Parse(Console.ReadLine());
+                TransferData transfer = new TransferData();
+                transfer.accountFrom = UserService.GetUserId();
+                transfer.accountTo = accountTo;
+                transfer.amount = amount;
+                accountService.CreateTransfer(transfer);
             }
-            Console.WriteLine($"-----------------");
-            Console.WriteLine($"Enter ID of user you are sending to");
-            int accountTo = int.Parse(Console.ReadLine());
-            Console.WriteLine($"Enter amount: ");
-            decimal amount = decimal.Parse(Console.ReadLine());
-            TransferData transfer = new TransferData();
-            transfer.accountFrom = 
-            transfer.accountTo = accountTo;
-            transfer.amount = amount;
-            accountService.CreateTransfer(transfer);
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
 
         }
 

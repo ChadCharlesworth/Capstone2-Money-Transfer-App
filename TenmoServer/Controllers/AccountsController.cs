@@ -27,10 +27,10 @@ namespace TenmoServer.Controllers
         }
 
         [HttpGet]
-        public ActionResult<decimal> GetBalance(ReturnUser user)
+        public ActionResult<decimal> GetBalance()
         {
 
-            User user = userDAO.GetUser(user.UserId));
+            User user = userDAO.GetUser("words");
             if (user.UserId > 0)
             {
                 decimal balance = accountDAO.GetBalance(user.UserId);
