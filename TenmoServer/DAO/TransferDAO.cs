@@ -40,14 +40,12 @@ namespace TenmoServer.DAO
             
         }
 
-<<<<<<< HEAD
         
 
-        public bool SendTransfer(int userID,int accountTo, decimal amount)
+ 
 
-=======
         public bool SendTransfer(int transferID)
->>>>>>> 11512fdd0d76e75d2570ed11b7bba484335248dc
+
         {
             Transfer input = GetTransfer(transferID);
             int rowsAffected = 0;
