@@ -12,7 +12,7 @@ namespace TenmoServer.DAO
 
         Transfer GetTransfer(int transferID);
 
-        bool SendTransfer(int userID, int accountTo, decimal amount);
+        bool SendTransfer(int transferID);
 
         Transfer CreateTransfer(int accountFrom, int accountTo, decimal amount); 
 

@@ -40,7 +40,12 @@ namespace TenmoServer.DAO
             
         }
 
+        
+
+ 
+
         public bool SendTransfer(int transferID)
+
         {
             Transfer input = GetTransfer(transferID);
             int rowsAffected = 0;
@@ -49,6 +54,7 @@ namespace TenmoServer.DAO
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
+
                     SqlCommand command = new SqlCommand("UPDATE accounts set balance = (balance - @amount) where user_id = @userID");
                     command.Parameters.AddWithValue("@amount", input.Amount);
                     command.Parameters.AddWithValue("@userID", input.AccountFrom);
@@ -61,10 +67,15 @@ namespace TenmoServer.DAO
                     }
                     
                     return (rowsAffected > 1);
+
                 }
             }
             catch (Exception)
             {
+
+
+
+
                 throw;
             }
         }
