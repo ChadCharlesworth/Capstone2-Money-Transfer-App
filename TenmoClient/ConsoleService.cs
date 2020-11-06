@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using TenmoClient.Data;
-using TenmoServer.Models;
+
 
 namespace TenmoClient
 {
@@ -30,13 +30,13 @@ namespace TenmoClient
             }
         }
 
-        public Data.LoginUser PromptForLogin()
+        public LoginUser PromptForLogin()
         {
             Console.Write("Username: ");
             string username = Console.ReadLine();
             string password = GetPasswordFromConsole("Password: ");
 
-            Data.LoginUser loginUser = new Data.LoginUser
+            LoginUser loginUser = new LoginUser
             {
                 Username = username,
                 Password = password
@@ -77,13 +77,12 @@ namespace TenmoClient
 
         public void PrintOutAllUsers()
         {
-            List<User> users = new List<User>();
-            users = accountService.GetUsers();
+            List<API_User> users = accountService.GetUsers();
             Console.WriteLine($"----------------------");
             Console.WriteLine($"Users");
             Console.WriteLine($"ID           Name");
             Console.WriteLine($"----------------------");
-            foreach (User user in users)
+            foreach (API_User user in users)
             {
                 Console.WriteLine($"{user.UserId}           {user.Username}");
             }
@@ -91,7 +90,12 @@ namespace TenmoClient
             Console.WriteLine($"Enter ID of user you are sending to");
             int accountTo = int.Parse(Console.ReadLine());
             Console.WriteLine($"Enter amount: ");
-            decimal amount = decimal.Parse(Console.ReadLine()); 
+            decimal amount = decimal.Parse(Console.ReadLine());
+            TransferData transfer = new TransferData();
+            transfer.accountFrom = 
+            transfer.accountTo = accountTo;
+            transfer.amount = amount;
+            accountService.CreateTransfer(transfer);
 
         }
 

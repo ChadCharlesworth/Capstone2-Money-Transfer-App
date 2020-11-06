@@ -27,9 +27,10 @@ namespace TenmoServer.Controllers
         }
 
         [HttpGet]
-        public ActionResult<decimal> GetBalance()
+        public ActionResult<decimal> GetBalance(ReturnUser user)
         {
-            User user = userDAO.GetUser(User.Identity.Name);
+
+            User user = userDAO.GetUser(user.UserId));
             if (user.UserId > 0)
             {
                 decimal balance = accountDAO.GetBalance(user.UserId);
@@ -48,9 +49,11 @@ namespace TenmoServer.Controllers
         }  
         
         [HttpPost("transfer")]
-        public ActionResult<Transfer> TransferToUser()
+        public ActionResult<Transfer> TransferToUser(int accountFrom,int accountTo, decimal amount)
         {
-            Transfer transfer = transferDAO.CreateTransfer(); 
+            Transfer output = transferDAO.CreateTransfer(accountFrom,accountTo,amount);
+            
+            return output;
         }
     }
 }

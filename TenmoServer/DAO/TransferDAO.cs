@@ -80,8 +80,9 @@ namespace TenmoServer.DAO
             }
         }
 
-        public bool CreateTransfer(int accountFrom,int accountTo, decimal amount)
+        public Transfer CreateTransfer(int accountFrom,int accountTo, decimal amount)
         {
+            Transfer transfer = new Transfer();
             try
             {
                 using(SqlConnection conn = new SqlConnection(connectionString))
@@ -91,8 +92,13 @@ namespace TenmoServer.DAO
                     command.Parameters.AddWithValue("@accountFrom", accountFrom);
                     command.Parameters.AddWithValue("@accountTo", accountTo);
                     command.Parameters.AddWithValue("@amount", amount);
-                    int rowsAffected = command.ExecuteNonQuery();
-                    return rowsAffected > 0;
+                    
+                    transfer.TransferId = Convert.ToInt32(command.ExecuteScalar());
+                    transfer.AccountFrom = accountFrom;
+                    transfer.AccountTo = accountTo;
+                    transfer.Amount = amount;
+
+                    return transfer;
                 }
             }
             catch (Exception)

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TenmoClient.Data;
 using TenmoServer.Models;
 
 namespace TenmoClient
@@ -19,16 +20,17 @@ namespace TenmoClient
             return response.Data;
         }
 
-        public List<User> GetUsers()
+        public List<API_User> GetUsers()
         {
             RestRequest request = new RestRequest(API_BASE_URL + "api/accounts/users");
-            IRestResponse<List<User>> respone = client.Get<List<User>>(request);
-            return respone.Data;
+            IRestResponse<List<API_User>> response = client.Get<List<API_User>>(request);
+            return response.Data;
         }
 
-        public Transfer CreateTransfer()
+        public Transfer CreateTransfer(TransferData transfer)
         {
             RestRequest request = new RestRequest(API_BASE_URL + "api/accounts/transfer");
+            request.AddJsonBody(transfer);
             IRestResponse<Transfer> response = client.Post<Transfer>(request);
             return response.Data;
         }

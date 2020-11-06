@@ -124,32 +124,32 @@ namespace TenmoServer.DAO
             return u;
         }
 
-        public decimal GetBalance (int id)
-        {
-            decimal balance = 0; 
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open(); 
-                    SqlCommand command = new SqlCommand("select balance from accounts where user_id= @id");
-                    command.Parameters.AddWithValue("@id", id);
-                    SqlDataReader reader = command.ExecuteReader(); 
-                    if(reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            balance = Convert.ToDecimal(reader);
-                        }
-                    }
+        //public decimal GetBalance (int id)
+        //{
+        //    decimal balance = 0; 
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open(); 
+        //            SqlCommand command = new SqlCommand("select balance from accounts where user_id= @id");
+        //            command.Parameters.AddWithValue("@id", id);
+        //            SqlDataReader reader = command.ExecuteReader(); 
+        //            if(reader.HasRows)
+        //            {
+        //                while (reader.Read())
+        //                {
+        //                    balance = Convert.ToDecimal(reader);
+        //                }
+        //            }
                     
-                }
-                return balance; 
-            }
-            catch (Exception e)
-            {
-                throw; 
-            }
-        }
+        //        }
+        //        return balance; 
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw; 
+        //    }
+        //}
     }
 }
