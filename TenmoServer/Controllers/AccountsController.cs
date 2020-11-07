@@ -55,7 +55,7 @@ namespace TenmoServer.Controllers
             return transfers;
         }
 
-        [HttpPost("sendtransfers")]
+        [HttpPost("transfer")]
         public ActionResult<Transfer> TransferToUser(int accountFrom, int accountTo, decimal amount)
         {
             Transfer output = transferDAO.CreateTransfer(accountFrom, accountTo, amount);
