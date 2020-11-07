@@ -47,8 +47,15 @@ namespace TenmoServer.Controllers
             List<User> users = userDAO.GetUsers();
             return users; 
         }  
+
+        [HttpGet("transfers/{userId}")]
+        public IList<Transfer> GetTransfers(int userId)
+        {
+            IList<Transfer> transfers = transferDAO.GetTransfers(userId);
+            return transfers;
+        }
         
-        [HttpPost("transfer")]
+        [HttpPost("sendtransfers")]
         public ActionResult<Transfer> TransferToUser(int accountFrom,int accountTo, decimal amount)
         {
             Transfer output = transferDAO.CreateTransfer(accountFrom,accountTo,amount);
