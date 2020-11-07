@@ -80,9 +80,9 @@ namespace TenmoServer.DAO
             }
         }
 
-        public Transfer CreateTransfer(int accountFrom,int accountTo, decimal amount)
+        public Transfer CreateTransfer(Transfer transfer)
         {
-            Transfer transfer = new Transfer();
+            
             try
             {
                 using(SqlConnection conn = new SqlConnection(connectionString))
@@ -90,15 +90,12 @@ namespace TenmoServer.DAO
                     // The send TE Bucks leads here after Console prompts but the values don't follow, they all are 0 here.
                     conn.Open();
                     SqlCommand command = new SqlCommand("insert into transfers(amount, account_from, account_to, transfer_type_id, transfer_status_id) values(@amount, @accountFrom, @accountTo, 2, 2); select scope_identity(); ", conn);
-                    command.Parameters.AddWithValue("@accountFrom", accountFrom);
-                    command.Parameters.AddWithValue("@accountTo", accountTo);
-                    command.Parameters.AddWithValue("@amount", amount);
+                    command.Parameters.AddWithValue("@accountFrom", transfer.AccountFrom);
+                    command.Parameters.AddWithValue("@accountTo", transfer.AccountTo);
+                    command.Parameters.AddWithValue("@amount", transfer.Amount);
                     
                     transfer.TransferId = Convert.ToInt32(command.ExecuteScalar());
-                    transfer.AccountFrom = accountFrom;
-                    transfer.AccountTo = accountTo;
-                    transfer.Amount = amount;
-
+                    
                     return transfer;
                 }
             }

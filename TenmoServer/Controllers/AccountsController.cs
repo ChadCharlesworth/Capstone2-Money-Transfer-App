@@ -47,6 +47,12 @@ namespace TenmoServer.Controllers
             List<User> users = userDAO.GetUsers();
             return users;
         }
+        [HttpGet("{userId}")]
+        public Account GetAccount(int userId)
+        {
+            Account account = accountDAO.GetAccount(userId);
+            return account;
+        }
 
         [HttpGet("transfers/{userId}")]
         public IList<Transfer> GetTransfers(int userId)
@@ -55,10 +61,10 @@ namespace TenmoServer.Controllers
             return transfers;
         }
 
-        [HttpPost("transfer")]
-        public ActionResult<Transfer> TransferToUser(int accountFrom, int accountTo, decimal amount)
+        [HttpPost("sendtransfers")]
+        public ActionResult<Transfer> TransferToUser(Transfer transfer)
         {
-            Transfer output = transferDAO.CreateTransfer(accountFrom, accountTo, amount);
+            Transfer output = transferDAO.CreateTransfer(transfer);
 
             return output;
         }
@@ -67,7 +73,7 @@ namespace TenmoServer.Controllers
         public ActionResult<decimal> UpdateBalance(int userId, decimal amountChanged)
         {
             decimal output = accountDAO.UpdateBalance(userId, amountChanged);
-            return output; 
+            return output;
         }
     }
 }
