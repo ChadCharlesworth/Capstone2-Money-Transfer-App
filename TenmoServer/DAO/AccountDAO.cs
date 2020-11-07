@@ -14,29 +14,30 @@ namespace TenmoServer.DAO
         {
             connectionString = dbConnectionString;
         }
-        public decimal GetBalance(int userID)
-        {
-            decimal balance = 0;
-            try
-            {
-                IList<Account> output = GetAccounts(userID);
-                foreach (Account account in output)
-                {
-                    balance += account.Balance;
-                }
+        //public decimal GetBalance(int userID)
+        //{
+        //    decimal balance = 0;
+        //    try
+        //    {
+        //        IList<Account> output = GetAccounts(userID);
+        //        foreach (Account account in output)
+        //        {
+        //            balance += account.Balance;
+        //        }
 
-            }
-            catch (Exception)
-            {
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-            return balance;
-        }
+        //        throw;
+        //    }
+        //    return balance;
+        //}
 
         public IList<Account> GetAccounts(int userID)
         {
             List<Account> output = new List<Account>();
+
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -70,6 +71,32 @@ namespace TenmoServer.DAO
             account.UserId = Convert.ToInt32(reader["user_id"]);
             account.Balance = Convert.ToDecimal(reader["balance"]);
             return account;
+        }
+
+        public decimal GetBalance(int user_id)
+        {
+            Account userAccount = new Account();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sqlText = "select * from accounts where user_id = @user_id";
+                    SqlCommand command = new SqlCommand(sqlText, connection);
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                   SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                       userAccount  = GetAccountFromReader(reader);
+                        
+                    }
+                    return userAccount.Balance;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -26,14 +26,14 @@ namespace TenmoServer.Controllers
             accountDAO = _accountDAO;
         }
 
-        [HttpGet]
-        public ActionResult<decimal> GetBalance()
+        [HttpGet("{userId}")]
+        public ActionResult<decimal> GetBalance(int userId)
         {
+            decimal? balance = accountDAO.GetBalance(userId);
 
-            User user = userDAO.GetUser("words");
-            if (user.UserId > 0)
+            if (balance != null)
             {
-                decimal balance = accountDAO.GetBalance(user.UserId);
+                
                 return balance;
 
             }
