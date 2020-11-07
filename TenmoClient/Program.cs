@@ -106,6 +106,7 @@ namespace TenmoClient
                 else if (menuSelection == 5)
                 {
                     //request TE bucks 
+                    Console.WriteLine($"Transfers: ");
                 }
                 else if (menuSelection == 6)
                 {
