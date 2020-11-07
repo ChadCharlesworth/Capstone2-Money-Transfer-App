@@ -77,7 +77,8 @@ namespace TenmoClient
 
         public void PrintOutAllUsers()
         {
-            UserAccount account = null;
+            UserAccount accountFrom = null;
+            UserAccount accountTo = null;
             try
             {
                 List<API_User> users = accountService.GetUsers();
@@ -91,18 +92,22 @@ namespace TenmoClient
                 }
                 Console.WriteLine($"-----------------");
                 Console.WriteLine($"Enter ID of user you are sending to");
-                int accountTo = int.Parse(Console.ReadLine());
+                int accountToID = int.Parse(Console.ReadLine());
                 Console.WriteLine($"Enter amount: ");
                 decimal amount = decimal.Parse(Console.ReadLine());
                 TransferData transfer = new TransferData();
                 transfer.accountFrom = UserService.GetUserId();
-                transfer.accountTo = accountTo;
+                transfer.accountTo = accountToID;
                 transfer.amount = amount;
-                account = accountService.GetAccount(transfer.accountFrom);
-                account.UserID = transfer.accountFrom;
-                account.Balance -= amount;
+                accountFrom = accountService.GetAccount(transfer.accountFrom);
+                accountFrom.UserID = transfer.accountFrom;
+                accountFrom.Balance -= amount;
+                accountTo = accountService.GetAccount(transfer.accountTo);
+                accountTo.UserID = transfer.accountTo;
+                accountTo.Balance += amount;
                 accountService.CreateTransfer(transfer);
-                accountService.SubtractBalance(account); 
+                accountService.SubtractBalance(accountFrom);
+                accountService.SubtractBalance(accountTo);
             }
             catch (Exception)
             {

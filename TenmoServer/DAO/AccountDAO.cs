@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
             }
         }
 
-        public decimal SubtractBalance(Account account)
+        public bool SubtractBalance(Account account)
         {
             try
             {
@@ -91,12 +91,8 @@ namespace TenmoServer.DAO
                     SqlCommand command = new SqlCommand(sqlText, connection);
                     command.Parameters.AddWithValue("@user_id", account.UserId);
                     command.Parameters.AddWithValue("@balance", account.Balance);
-                    SqlDataReader reader = command.ExecuteReader(); 
-                    while (reader.Read())
-                    {
-                        account = GetAccountFromReader(reader);
-                    }
-                    return account.Balance; 
+                    return command.ExecuteNonQuery()> 0;
+                    
                 }
             }
             catch (Exception e)
