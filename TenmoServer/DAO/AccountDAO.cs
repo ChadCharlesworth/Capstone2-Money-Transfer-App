@@ -14,25 +14,6 @@ namespace TenmoServer.DAO
         {
             connectionString = dbConnectionString;
         }
-        //public decimal GetBalance(int userID)
-        //{
-        //    decimal balance = 0;
-        //    try
-        //    {
-        //        IList<Account> output = GetAccounts(userID);
-        //        foreach (Account account in output)
-        //        {
-        //            balance += account.Balance;
-        //        }
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //    return balance;
-        //}
 
         public IList<Account> GetAccounts(int userID)
         {
@@ -96,6 +77,31 @@ namespace TenmoServer.DAO
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        public decimal UpdateBalance(int user_id)
+        {
+            Account userAccount = new Account();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sqlText = "update accounts set balance = @balance where user_id = @user_id";
+                    SqlCommand command = new SqlCommand(sqlText, connection);
+                    command.Parameters.AddWithValue("@user_id", user_id);
+                    SqlDataReader reader = command.ExecuteReader(); 
+                    while (reader.Read())
+                    {
+                        userAccount = GetAccountFromReader(reader);
+                    }
+                    return userAccount.Balance; 
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
             }
         }
     }
