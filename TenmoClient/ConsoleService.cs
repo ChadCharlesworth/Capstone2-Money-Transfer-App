@@ -98,9 +98,11 @@ namespace TenmoClient
                 transfer.accountFrom = UserService.GetUserId();
                 transfer.accountTo = accountTo;
                 transfer.amount = amount;
-                account = accountService.GetAccount(accountTo);
+                account = accountService.GetAccount(transfer.accountFrom);
+                account.UserID = transfer.accountFrom;
+                account.Balance -= amount;
                 accountService.CreateTransfer(transfer);
-                accountService.UpdateBalance(account); 
+                accountService.SubtractBalance(account); 
             }
             catch (Exception)
             {
