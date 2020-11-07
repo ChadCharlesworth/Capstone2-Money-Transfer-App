@@ -15,9 +15,9 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public IList<Account> GetAccounts(int userID)
+        public Account GetAccount(int userID)
         {
-            List<Account> output = new List<Account>();
+            Account output = new Account();
 
             try
             {
@@ -30,8 +30,8 @@ namespace TenmoServer.DAO
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Account a = GetAccountFromReader(reader);
-                        output.Add(a);
+                         output = GetAccountFromReader(reader);
+                        return output;
                     }
 
                 }
@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
             }
         }
 
-        public decimal UpdateBalance(int user_id, decimal amountChanged)
+        public decimal UpdateBalance(int user_id,decimal amountChanged)
         {
             Account userAccount = new Account();
             try

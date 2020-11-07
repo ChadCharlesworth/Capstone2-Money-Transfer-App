@@ -5,10 +5,10 @@ namespace TenmoServer.DAO
 {
    public  interface IAccountDAO
     {
-        IList<Account> GetAccounts(int userID);
+        Account GetAccount(int userID);
 
         decimal GetBalance(int userID);
 
-        decimal UpdateBalance(int userID, decimal amountChanged); 
+        decimal UpdateBalance(int user_id,decimal amountChanged); 
     }
 }

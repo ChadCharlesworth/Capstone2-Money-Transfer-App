@@ -77,6 +77,7 @@ namespace TenmoClient
 
         public void PrintOutAllUsers()
         {
+            UserAccount account = null;
             try
             {
                 List<API_User> users = accountService.GetUsers();
@@ -97,8 +98,9 @@ namespace TenmoClient
                 transfer.accountFrom = UserService.GetUserId();
                 transfer.accountTo = accountTo;
                 transfer.amount = amount;
+                account = accountService.GetAccount(accountTo);
                 accountService.CreateTransfer(transfer);
-                accountService.UpdateBalance(accountTo); 
+                accountService.UpdateBalance(account); 
             }
             catch (Exception)
             {
