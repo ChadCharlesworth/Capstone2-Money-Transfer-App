@@ -63,10 +63,10 @@ namespace TenmoServer.Controllers
             return output;
         }
 
-        [HttpPut("transfers/{userId}")]
-        public ActionResult<decimal> UpdateBalance(int userId)
+        [HttpPut("users/{userId}")]
+        public ActionResult<decimal> UpdateBalance(int userId, decimal amountChanged)
         {
-            decimal output = accountDAO.UpdateBalance(userId);
+            decimal output = accountDAO.UpdateBalance(userId, amountChanged);
             return output; 
         }
     }
