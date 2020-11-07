@@ -30,8 +30,8 @@ namespace TenmoClient
         public Transfer CreateTransfer(TransferData transfer)
         {
             RestRequest request = new RestRequest(API_BASE_URL + "/transfer");
-            request.AddJsonBody(transfer);
-            IRestResponse<Transfer> response = client.Post<Transfer>(request);
+            request.AddJsonBody(transfer); 
+            IRestResponse<Transfer> response = client.Post<Transfer>(request);  //Respone String is not JSON formatted
             return response.Data;
         }
 
@@ -39,8 +39,15 @@ namespace TenmoClient
         {
             RestRequest request = new RestRequest(API_BASE_URL + "/transfers/{userId}");
             IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
-
             return response.Data;
+        }
+
+        public decimal UpdateBalance(int userId)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL + "/balance");
+            request.AddJsonBody(userId); 
+            IRestResponse<decimal> response = client.Put<decimal>(request);
+            return response.Data; 
         }
     }
 }

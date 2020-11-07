@@ -7,6 +7,8 @@ namespace TenmoServer.DAO
     {
         IList<Account> GetAccounts(int userID);
 
-        decimal GetBalance(int userID); 
+        decimal GetBalance(int userID);
+
+        decimal UpdateBalance(int userID); 
     }
 }

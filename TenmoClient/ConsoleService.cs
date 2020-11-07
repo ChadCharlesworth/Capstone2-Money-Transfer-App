@@ -98,16 +98,13 @@ namespace TenmoClient
                 transfer.accountTo = accountTo;
                 transfer.amount = amount;
                 accountService.CreateTransfer(transfer);
+                accountService.UpdateBalance(accountTo); 
             }
             catch (Exception)
             {
 
                 throw;
             }
-            
-
         }
-
-
     }
 }
