@@ -26,15 +26,15 @@ namespace TenmoServer.Controllers
             accountDAO = _accountDAO;
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("{userId}/balance")]
         public ActionResult<decimal> GetBalance(int userId)
         {
-            decimal? balance = accountDAO.GetBalance(userId);
+            Account account = accountDAO.GetAccount(userId);
 
-            if (balance != null)
+            if (account.Balance != 0)
             {
 
-                return balance;
+                return account.Balance;
 
             }
             else return Forbid();
@@ -70,9 +70,9 @@ namespace TenmoServer.Controllers
         }
 
         [HttpPut("users/{userId}")]
-        public ActionResult<decimal> UpdateBalance(int userId, decimal amountChanged)
+        public ActionResult<decimal> SubtractBalance(Account account)
         {
-            decimal output = accountDAO.UpdateBalance(userId, amountChanged);
+            decimal output = accountDAO.SubtractBalance(account);
             return output;
         }
     }

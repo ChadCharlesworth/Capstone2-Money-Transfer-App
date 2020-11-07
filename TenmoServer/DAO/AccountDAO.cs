@@ -80,24 +80,23 @@ namespace TenmoServer.DAO
             }
         }
 
-        public decimal UpdateBalance(int user_id,decimal amountChanged)
+        public decimal SubtractBalance(Account account)
         {
-            Account userAccount = new Account();
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sqlText = "update accounts set balance = (balance - @amountChanged) where user_id = @user_id";
+                    string sqlText = "update accounts set balance = @balance where user_id = @user_id";
                     SqlCommand command = new SqlCommand(sqlText, connection);
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@amountChanged", amountChanged);
+                    command.Parameters.AddWithValue("@user_id", account.UserId);
+                    command.Parameters.AddWithValue("@balance", account.Balance);
                     SqlDataReader reader = command.ExecuteReader(); 
                     while (reader.Read())
                     {
-                        userAccount = GetAccountFromReader(reader);
+                        account = GetAccountFromReader(reader);
                     }
-                    return userAccount.Balance; 
+                    return account.Balance; 
                 }
             }
             catch (Exception e)

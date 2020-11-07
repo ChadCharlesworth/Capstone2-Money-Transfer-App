@@ -15,7 +15,7 @@ namespace TenmoClient
         
         public decimal GetBalance(int userId)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + $"/{userId}");
+            RestRequest request = new RestRequest(API_BASE_URL + $"/{userId}/balance");
             IRestResponse<decimal> response = client.Get<decimal>(request);
 
             return response.Data;
@@ -32,20 +32,20 @@ namespace TenmoClient
         {
             RestRequest request = new RestRequest(API_BASE_URL + "/sendtransfers");
             request.AddJsonBody(transfer); 
-            IRestResponse<Transfer> response = client.Post<Transfer>(request);  //Respone String is not JSON formatted
+            IRestResponse<Transfer> response = client.Post<Transfer>(request);  
             return response.Data;
         }
 
-        public List<Transfer> GetTransfersOfUser()
+        public List<Transfer> GetTransfersOfUser(UserAccount account)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "/transfers/{userId}");
+            RestRequest request = new RestRequest(API_BASE_URL + $"/transfers/{account.UserID}");
             IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
             return response.Data;
         }
 
-        public decimal UpdateBalance(UserAccount account)
+        public decimal SubtractBalance(UserAccount account)
         {
-                RestRequest request = new RestRequest(API_BASE_URL + "users/{userId}");
+                RestRequest request = new RestRequest(API_BASE_URL + $"users/{account.UserID}");
                 request.AddJsonBody(account);
                 IRestResponse<decimal> response = client.Put<decimal>(request);
                 return response.Data;
@@ -53,7 +53,7 @@ namespace TenmoClient
 
         public UserAccount GetAccount(int userId)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "/{userId}");
+            RestRequest request = new RestRequest(API_BASE_URL + $"/{userId}");
             IRestResponse<UserAccount> response = client.Get<UserAccount>(request);
             if(response.ResponseStatus != ResponseStatus.Completed)
             {
