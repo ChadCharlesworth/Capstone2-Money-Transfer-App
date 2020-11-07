@@ -44,10 +44,16 @@ namespace TenmoClient
 
         public decimal UpdateBalance(int userId)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "/balance");
-            request.AddJsonBody(userId); 
-            IRestResponse<decimal> response = client.Put<decimal>(request);
-            return response.Data; 
+            
+                    
+
+                RestRequest request = new RestRequest(API_BASE_URL + "users/{userId}");
+                request.AddJsonBody(userId);
+                IRestResponse<decimal> response = client.Put<decimal>(request);
+                return response.Data;
+
+
+           
         }
     }
 }

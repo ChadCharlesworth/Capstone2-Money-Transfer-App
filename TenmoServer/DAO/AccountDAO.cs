@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
             }
         }
 
-        public decimal UpdateBalance(int user_id)
+        public decimal UpdateBalance(int user_id, decimal amountChanged)
         {
             Account userAccount = new Account();
             try
@@ -88,9 +88,10 @@ namespace TenmoServer.DAO
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sqlText = "update accounts set balance = @balance where user_id = @user_id";
+                    string sqlText = "update accounts set balance = (balance - @amountChanged) where user_id = @user_id";
                     SqlCommand command = new SqlCommand(sqlText, connection);
                     command.Parameters.AddWithValue("@user_id", user_id);
+                    command.Parameters.AddWithValue("@amountChanged", amountChanged);
                     SqlDataReader reader = command.ExecuteReader(); 
                     while (reader.Read())
                     {
