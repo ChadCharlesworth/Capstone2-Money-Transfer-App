@@ -9,12 +9,12 @@ namespace TenmoClient
 {
     public class AccountService
     {
-        private readonly static string API_BASE_URL = "https://localhost:44315/";
+        private readonly static string API_BASE_URL = "https://localhost:44315/Accounts";
         private readonly IRestClient client = new RestClient();
         
-        public decimal BalanceAmount()
+        public decimal GetBalance(int userId)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "api/accounts");
+            RestRequest request = new RestRequest(API_BASE_URL + $"/{userId}");
             IRestResponse<decimal> response = client.Get<decimal>(request);
 
             return response.Data;
@@ -22,14 +22,14 @@ namespace TenmoClient
 
         public List<API_User> GetUsers()
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "api/accounts/users");
+            RestRequest request = new RestRequest(API_BASE_URL + "/users");
             IRestResponse<List<API_User>> response = client.Get<List<API_User>>(request);
             return response.Data;
         }
 
         public Transfer CreateTransfer(TransferData transfer)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "api/accounts/transfer");
+            RestRequest request = new RestRequest(API_BASE_URL + "/transfer");
             request.AddJsonBody(transfer);
             IRestResponse<Transfer> response = client.Post<Transfer>(request);
             return response.Data;
