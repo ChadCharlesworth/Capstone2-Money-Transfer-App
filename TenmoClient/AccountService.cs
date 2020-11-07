@@ -45,7 +45,7 @@ namespace TenmoClient
 
         public decimal SubtractBalance(UserAccount account)
         {
-                RestRequest request = new RestRequest(API_BASE_URL + $"users/{account.UserID}");
+                RestRequest request = new RestRequest(API_BASE_URL + $"/users/{account.UserID}");
                 request.AddJsonBody(account);
                 IRestResponse<decimal> response = client.Put<decimal>(request);
                 return response.Data;

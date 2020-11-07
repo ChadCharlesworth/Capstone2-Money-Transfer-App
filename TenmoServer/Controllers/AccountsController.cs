@@ -69,11 +69,12 @@ namespace TenmoServer.Controllers
             return output;
         }
 
-        [HttpPut("users/{userId}")]
-        public ActionResult<decimal> SubtractBalance(Account account)
+        [HttpPut("users/{account.UserID}")]
+        public ActionResult<bool> SubtractBalance(Account account)
         {
-            decimal output = accountDAO.SubtractBalance(account);
-            return output;
+
+            bool worked = accountDAO.SubtractBalance(account);
+            return worked;
         }
     }
 }

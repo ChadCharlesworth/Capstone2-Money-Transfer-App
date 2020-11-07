@@ -9,6 +9,6 @@ namespace TenmoServer.DAO
 
         decimal GetBalance(int userID);
 
-        decimal SubtractBalance(Account account); 
+        bool SubtractBalance(Account account); 
     }
 }
