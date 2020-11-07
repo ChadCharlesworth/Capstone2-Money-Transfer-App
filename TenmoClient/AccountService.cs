@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using TenmoClient.Data;
 using TenmoServer.Models;
@@ -29,7 +30,7 @@ namespace TenmoClient
 
         public Transfer CreateTransfer(TransferData transfer)
         {
-            RestRequest request = new RestRequest(API_BASE_URL + "/transfer");
+            RestRequest request = new RestRequest(API_BASE_URL + "/sendtransfers");
             request.AddJsonBody(transfer); 
             IRestResponse<Transfer> response = client.Post<Transfer>(request);  //Respone String is not JSON formatted
             return response.Data;
@@ -42,18 +43,27 @@ namespace TenmoClient
             return response.Data;
         }
 
-        public decimal UpdateBalance(int userId)
+        public decimal UpdateBalance(UserAccount account)
         {
-            
-                    
-
                 RestRequest request = new RestRequest(API_BASE_URL + "users/{userId}");
-                request.AddJsonBody(userId);
+                request.AddJsonBody(account);
                 IRestResponse<decimal> response = client.Put<decimal>(request);
                 return response.Data;
+        }
 
-
-           
+        public UserAccount GetAccount(int userId)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL + "/{userId}");
+            IRestResponse<UserAccount> response = client.Get<UserAccount>(request);
+            if(response.ResponseStatus != ResponseStatus.Completed)
+            {
+                throw new HttpRequestException();
+            }
+            else if (!response.IsSuccessful)
+            {
+                throw new HttpRequestException();
+            }
+            return response.Data;
         }
     }
 }
