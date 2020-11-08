@@ -75,5 +75,12 @@ namespace TenmoServer.Controllers
             decimal output = accountDAO.UpdateBalance(userId, amountChanged);
             return output;
         }
+
+        [HttpPost]
+        public ActionResult<Account> CreateAccount(Account account)
+        {
+            bool accountCreated = accountDAO.CreateAccount(account);
+            return Ok(accountCreated);
+        }
     }
 }
