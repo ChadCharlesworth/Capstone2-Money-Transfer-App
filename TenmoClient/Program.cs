@@ -132,9 +132,16 @@ namespace TenmoClient
                 {
                     Console.WriteLine("");
                     UserAccount newAccount = new UserAccount();
-                    newAccount.AccountId = UserService.GetUserId();
+                    newAccount.UserID = UserService.GetUserId();
                     newAccount.Balance = 1000;
-                    accountService.CreateAccount(newAccount);
+                    try
+                    {
+                        accountService.CreateAccount(newAccount);
+                        Console.WriteLine("Account Created!");
+                    }catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
 
                 }
 
