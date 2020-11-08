@@ -76,5 +76,12 @@ namespace TenmoServer.Controllers
             bool worked = accountDAO.SubtractBalance(account);
             return worked;
         }
+
+        [HttpGet("{userID}/users")]
+        public ActionResult<User> GetSome(int userId)
+        {
+            User output = userDAO.GetUserFromID(userId);
+            return output; 
+        }
     }
 }
