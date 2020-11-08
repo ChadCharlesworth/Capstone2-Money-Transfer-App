@@ -23,7 +23,7 @@ namespace TenmoServer.DAO
                     connection.Open();
                     string sqlText = "select * from transfers where account_from in (select account_id from accounts where user_id = @userid) or account_to in (select account_id from accounts where user_id = @userid)";
                     SqlCommand command = new SqlCommand(sqlText, connection);
-                    command.Parameters.AddWithValue("@user_id", userID);
+                    command.Parameters.AddWithValue("@userid", userID);
                     SqlDataReader reader = command.ExecuteReader(); 
                     while (reader.Read())
                     {

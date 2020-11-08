@@ -1,8 +1,10 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using TenmoClient.Data;
-
+using TenmoServer.Models;
+using LoginUser = TenmoClient.Data.LoginUser;
 
 namespace TenmoClient
 {
@@ -27,6 +29,7 @@ namespace TenmoClient
             else
             {
                 return auctionId;
+
             }
         }
 
@@ -77,41 +80,62 @@ namespace TenmoClient
 
         public void PrintOutAllUsers()
         {
-            UserAccount accountFrom = null;
-            UserAccount accountTo = null;
+            //UserAccount accountFrom = null;
+            //UserAccount accountTo = null;
             try
             {
                 List<API_User> users = accountService.GetUsers();
                 Console.WriteLine($"----------------------");
                 Console.WriteLine($"Users");
-                Console.WriteLine($"ID           Name");
+                Console.WriteLine($"ID          Name");
                 Console.WriteLine($"----------------------");
                 foreach (API_User user in users)
                 {
                     Console.WriteLine($"{user.UserId}           {user.Username}");
                 }
-                Console.WriteLine($"-----------------");
+                Console.WriteLine($"----------------------");
                 Console.WriteLine($"Enter ID of user you are sending to");
-                int accountToID = int.Parse(Console.ReadLine());
-                Console.WriteLine($"Enter amount: ");
-                decimal amount = decimal.Parse(Console.ReadLine());
-                TransferData transfer = new TransferData();
-                transfer.accountFrom = UserService.GetUserId();
-                transfer.accountTo = accountToID;
-                transfer.amount = amount;
-                accountFrom = accountService.GetAccount(transfer.accountFrom);
-                accountFrom.UserID = transfer.accountFrom;
-                accountFrom.Balance -= amount;
-                accountTo = accountService.GetAccount(transfer.accountTo);
-                accountTo.UserID = transfer.accountTo;
-                accountTo.Balance += amount;
-                accountService.CreateTransfer(transfer);
-                accountService.SubtractBalance(accountFrom);
-                accountService.SubtractBalance(accountTo);
+                //int accountToID = int.Parse(Console.ReadLine());
+                //Console.WriteLine($"Enter amount: ");
+                //decimal amount = decimal.Parse(Console.ReadLine());
+                //TransferData transfer = new TransferData();
+                //transfer.accountFrom = UserService.GetUserId();
+                //transfer.accountTo = accountToID;
+                //transfer.amount = amount;
+                //accountFrom = accountService.GetAccount(transfer.accountFrom);
+                //accountFrom.UserID = transfer.accountFrom;
+                //accountFrom.Balance -= amount;
+                //accountTo = accountService.GetAccount(transfer.accountTo);
+                //accountTo.UserID = transfer.accountTo;
+                //accountTo.Balance += amount;
+                //accountService.CreateTransfer(transfer);
+                //accountService.SubtractBalance(accountFrom);
+                //accountService.SubtractBalance(accountTo);
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public void ShowTransfers()
+        {
+            try
+            {
+                Console.WriteLine($"-------------------------------------------------------------");
+                Console.WriteLine($"Transfers"); 
+                Console.WriteLine($"ID".PadRight(10)      +     "From/To".PadRight(25)     +      "Amount".PadRight(10));
+                Console.WriteLine($"-------------------------------------------------------------");
+                List<Transfer> transfers = accountService.AllTransfers(UserService.GetUserId());
+                foreach (Transfer transfer in transfers)
+                {
+                    Console.WriteLine((transfer.TransferId.ToString().PadRight(10))+ "From: " +(accountService.GetUsersFromID(transfer.AccountFrom).Username.ToString().PadRight(20))+transfer.Amount.ToString("C").PadRight(10));
+                    Console.WriteLine((transfer.TransferId.ToString().PadRight(10))+ "To:   " +(accountService.GetUsersFromID(transfer.AccountTo).Username.ToString().PadRight(20))+transfer.Amount.ToString("C").PadRight(10));
+                }
+                Console.WriteLine("Please enter transfer ID to view details (0 to cancel):");
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

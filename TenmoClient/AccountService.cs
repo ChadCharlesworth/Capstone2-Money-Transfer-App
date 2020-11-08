@@ -65,5 +65,20 @@ namespace TenmoClient
             }
             return response.Data;
         }
+
+        public List<Transfer> AllTransfers(int userId)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL + $"/transfers/{userId}");
+            IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
+            return response.Data; 
+        }
+
+        public API_User GetUsersFromID(int userId)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL + $"/{userId}/users");
+            IRestResponse<API_User> response = client.Get<API_User>(request);
+            return response.Data;
+        }
+
     }
 }

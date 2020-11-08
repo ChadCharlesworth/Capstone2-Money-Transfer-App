@@ -92,7 +92,9 @@ namespace TenmoClient
                 }
                 else if (menuSelection == 2)
                 {
-                    //View past transfers 
+                    //View past transfers
+                    consoleService.ShowTransfers();
+
                 }
                 else if (menuSelection == 3)
                 {
@@ -101,7 +103,26 @@ namespace TenmoClient
                 else if (menuSelection == 4)
                 {
                     //Send TE bucks
-                    consoleService.PrintOutAllUsers(); 
+                    UserAccount accountFrom = null;
+                    UserAccount accountTo = null;
+                    consoleService.PrintOutAllUsers();
+                    int accountToID = int.Parse(Console.ReadLine());
+                    Console.WriteLine($"Enter amount: ");
+                    decimal amount = decimal.Parse(Console.ReadLine());
+                    TransferData transfer = new TransferData();
+                    transfer.accountFrom = UserService.GetUserId();
+                    transfer.accountTo = accountToID;
+                    transfer.amount = amount;
+                    accountFrom = accountService.GetAccount(transfer.accountFrom);
+                    accountFrom.UserID = transfer.accountFrom;
+                    accountFrom.Balance -= amount;
+                    accountTo = accountService.GetAccount(transfer.accountTo);
+                    accountTo.UserID = transfer.accountTo;
+                    accountTo.Balance += amount;
+                    accountService.CreateTransfer(transfer);
+                    accountService.SubtractBalance(accountFrom);
+                    accountService.SubtractBalance(accountTo);
+
                 }
                 else if (menuSelection == 5)
                 {
