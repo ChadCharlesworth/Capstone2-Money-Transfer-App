@@ -70,10 +70,10 @@ namespace TenmoServer.Controllers
         }
 
         [HttpPut("users/{account.UserID}")]
-        public ActionResult<bool> SubtractBalance(Account account)
+        public ActionResult<bool> UpdateBalance(Account account)
         {
 
-            bool worked = accountDAO.SubtractBalance(account);
+            bool worked = accountDAO.UpdateBalance(account);
             return worked;
         }
 
@@ -81,6 +81,13 @@ namespace TenmoServer.Controllers
         public ActionResult<User> GetSome(int userId)
         {
             User output = userDAO.GetUserFromID(userId);
+            return output; 
+        }
+
+        [HttpGet("transfer/{transferID}")]
+        public ActionResult<Transfer> GetTransferByTransferID(int transferId)
+        {
+            Transfer output = transferDAO.GetTransfer(transferId);
             return output; 
         }
     }
