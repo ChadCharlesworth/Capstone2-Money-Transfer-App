@@ -77,6 +77,7 @@ namespace TenmoClient
                 Console.WriteLine("4: Send TE bucks");
                 Console.WriteLine("5: Request TE bucks");
                 Console.WriteLine("6: Log in as different user");
+                Console.WriteLine("7: Create a new account");
                 Console.WriteLine("0: Exit");
                 Console.WriteLine("---------");
                 Console.Write("Please choose an option: ");
@@ -135,6 +136,16 @@ namespace TenmoClient
                     UserService.SetLogin(new API_User()); //wipe out previous login info
                     Run(); //return to entry point
                 }
+                else if (menuSelection == 7)
+                {
+                    Console.WriteLine("");
+                    UserAccount newAccount = new UserAccount();
+                    newAccount.AccountId = UserService.GetUserId();
+                    newAccount.Balance = 1000;
+                    accountService.CreateAccount(newAccount);
+
+                }
+
                 else
                 {
                     Console.WriteLine("Goodbye!");

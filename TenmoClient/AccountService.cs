@@ -80,5 +80,12 @@ namespace TenmoClient
             return response.Data;
         }
 
+        public Account CreateAccount(UserAccount account)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL);
+            request.AddJsonBody(account);
+            IRestResponse<Account> response = client.Post<Account>(request);
+            return response.Data;
+        }
     }
 }

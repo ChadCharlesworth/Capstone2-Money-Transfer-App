@@ -83,5 +83,12 @@ namespace TenmoServer.Controllers
             User output = userDAO.GetUserFromID(userId);
             return output; 
         }
+
+        [HttpPost]
+        public ActionResult<Account> CreateAccount(Account account)
+        {
+            bool accountCreated = accountDAO.CreateAccount(account);
+            return Ok(accountCreated);
+        }
     }
 }
