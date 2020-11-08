@@ -126,11 +126,18 @@ namespace TenmoClient
                 Console.WriteLine($"Transfers"); 
                 Console.WriteLine($"ID".PadRight(10)      +     "From/To".PadRight(25)     +      "Amount".PadRight(10));
                 Console.WriteLine($"-------------------------------------------------------------");
-                List<Transfer> transfers = accountService.AllTransfers(UserService.GetUserId());
+                List<Transfer> transfers = accountService.AllTransfers(accountService.GetAccount(UserService.GetUserId()).AccountId);
                 foreach (Transfer transfer in transfers)
                 {
-                    Console.WriteLine((transfer.TransferId.ToString().PadRight(10))+ "From: " +(accountService.GetUsersFromID(transfer.AccountFrom).Username.ToString().PadRight(20))+transfer.Amount.ToString("C").PadRight(10));
-                    Console.WriteLine((transfer.TransferId.ToString().PadRight(10))+ "To:   " +(accountService.GetUsersFromID(transfer.AccountTo).Username.ToString().PadRight(20))+transfer.Amount.ToString("C").PadRight(10));
+                    if(transfer.AccountTo == accountService.GetAccount(UserService.GetUserId()).AccountId)
+                    {
+                        Console.WriteLine((transfer.TransferId.ToString().PadRight(10)) + "From: " + (accountService.GetUsersFromID(transfer.AccountFrom).Username.ToString().PadRight(20)) + transfer.Amount.ToString("C").PadRight(10));
+                    }
+                    else if(transfer.AccountFrom == UserService.GetUserId())
+                    {
+                        Console.WriteLine((transfer.TransferId.ToString().PadRight(10)) + "To:   " + (accountService.GetUsersFromID(transfer.AccountTo).Username.ToString().PadRight(20)) + transfer.Amount.ToString("C").PadRight(10));
+                    }
+
                 }
                 Console.WriteLine("Please enter transfer ID to view details (0 to cancel):");
             }
