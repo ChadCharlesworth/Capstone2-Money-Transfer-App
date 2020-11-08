@@ -111,32 +111,11 @@ namespace TenmoClient
                 else if (menuSelection == 4)
                 {
                     //Send TE bucks
-                    UserAccount accountFrom = null;
-                    UserAccount accountTo = null;
                     consoleService.PrintOutAllUsers();
                     int accountToID = int.Parse(Console.ReadLine());
                     Console.WriteLine($"Enter amount: ");
                     decimal amount = decimal.Parse(Console.ReadLine());
-                    TransferData transfer = new TransferData();
-                    transfer.accountFrom = UserService.GetUserId();
-                    transfer.accountTo = accountToID;
-                    transfer.amount = amount;
-                    accountFrom = accountService.GetAccount(transfer.accountFrom);
-                    accountFrom.UserID = transfer.accountFrom;
-                    accountTo = accountService.GetAccount(transfer.accountTo);
-                    accountTo.UserID = transfer.accountTo;
-                    if (transfer.amount <= accountFrom.Balance)
-                    {
-                        accountTo.Balance += amount;
-                        accountFrom.Balance -= amount;
-                        accountService.CreateTransfer(transfer);
-                        accountService.UpdateBalance(accountFrom);
-                        accountService.UpdateBalance(accountTo);
-                    }
-                    else if (transfer.amount > accountFrom.Balance)
-                    {
-                        return;
-                    }
+                    consoleService.SendTEBucks(accountToID, amount);
                 }
                 else if (menuSelection == 5)
                 {

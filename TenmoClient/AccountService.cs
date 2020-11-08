@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using TenmoClient.Data;
-using TenmoServer.Models;
+
 
 namespace TenmoClient
 {
@@ -28,18 +28,18 @@ namespace TenmoClient
             return response.Data;
         }
 
-        public Transfer CreateTransfer(TransferData transfer)
+        public TransferData CreateTransfer(TransferData transfer)
         {
             RestRequest request = new RestRequest(API_BASE_URL + "/sendtransfers");
             request.AddJsonBody(transfer); 
-            IRestResponse<Transfer> response = client.Post<Transfer>(request);  
+            IRestResponse<TransferData> response = client.Post<TransferData>(request);  
             return response.Data;
         }
 
-        public List<Transfer> GetTransfersOfUser(UserAccount account)
+        public List<TransferData> GetTransfersOfUser(UserAccount account)
         {
             RestRequest request = new RestRequest(API_BASE_URL + $"/transfers/{account.UserID}");
-            IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
+            IRestResponse<List<TransferData>> response = client.Get<List<TransferData>>(request);
             return response.Data;
         }
 
@@ -66,10 +66,10 @@ namespace TenmoClient
             return response.Data;
         }
 
-        public List<Transfer> AllTransfers(int userId)
+        public List<TransferData> AllTransfers(int userId)
         {
             RestRequest request = new RestRequest(API_BASE_URL + $"/transfers/{userId}");
-            IRestResponse<List<Transfer>> response = client.Get<List<Transfer>>(request);
+            IRestResponse<List<TransferData>> response = client.Get<List<TransferData>>(request);
             return response.Data; 
         }
 
@@ -80,17 +80,17 @@ namespace TenmoClient
             return response.Data;
         }
 
-        public Account CreateAccount(UserAccount account)
+        public UserAccount CreateAccount(UserAccount account)
         {
             RestRequest request = new RestRequest(API_BASE_URL);
             request.AddJsonBody(account);
-            IRestResponse<Account> response = client.Post<Account>(request);
+            IRestResponse<UserAccount> response = client.Post<UserAccount>(request);
             return response.Data;
         }
-        public Transfer GetTransferByTransferID(int transferId)
+        public TransferData GetTransferByTransferID(int transferId)
         {
             RestRequest request = new RestRequest(API_BASE_URL + $"/transfer/{transferId}");
-            IRestResponse<Transfer> response = client.Get<Transfer>(request);
+            IRestResponse<TransferData> response = client.Get<TransferData>(request);
             return response.Data;
         }
     }

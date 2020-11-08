@@ -7,10 +7,11 @@ namespace TenmoClient.Data
 {
     public class TransferData
     {
-        public int accountFrom { get; set; }
-        public int accountTo { get; set; }
-        public decimal amount { get; set; }
-        public int transferTypeID { get; set; } = 2;
-        public int transferStatusID { get; set; } = 2;
+        public int TransferId { get; set; }
+        public int AccountFrom { get; set; }
+        public int AccountTo { get; set; }
+        public decimal Amount { get; set; }
+        public int TransferTypeId { get; set; } = 2;
+        public int TransferStatusId { get; set; } = 2;
     }
 }

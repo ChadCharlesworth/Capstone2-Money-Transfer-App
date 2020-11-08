@@ -110,7 +110,7 @@ namespace TenmoServer.DAO
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sqlText = "insert in accounts VALUES (@user_id, @balance)";
+                    string sqlText = "insert into accounts VALUES (@user_id, @balance)";
                     SqlCommand command = new SqlCommand(sqlText, connection);
                     command.Parameters.AddWithValue("@user_id", account.UserId);
                     command.Parameters.AddWithValue("@balance", account.Balance);

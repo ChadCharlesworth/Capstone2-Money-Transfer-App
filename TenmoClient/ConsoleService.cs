@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using TenmoClient.Data;
-using TenmoServer.Models;
+
 using LoginUser = TenmoClient.Data.LoginUser;
 
 namespace TenmoClient
@@ -81,8 +81,7 @@ namespace TenmoClient
 
         public void PrintOutAllUsers()
         {
-            //UserAccount accountFrom = null;
-            //UserAccount accountTo = null;
+            
             try
             {
                 List<API_User> users = accountService.GetUsers();
@@ -96,28 +95,41 @@ namespace TenmoClient
                 }
                 Console.WriteLine($"----------------------");
                 Console.WriteLine($"Enter ID of user you are sending to");
-                //int accountToID = int.Parse(Console.ReadLine());
-                //Console.WriteLine($"Enter amount: ");
-                //decimal amount = decimal.Parse(Console.ReadLine());
-                //TransferData transfer = new TransferData();
-                //transfer.accountFrom = UserService.GetUserId();
-                //transfer.accountTo = accountToID;
-                //transfer.amount = amount;
-                //accountFrom = accountService.GetAccount(transfer.accountFrom);
-                //accountFrom.UserID = transfer.accountFrom;
-                //accountFrom.Balance -= amount;
-                //accountTo = accountService.GetAccount(transfer.accountTo);
-                //accountTo.UserID = transfer.accountTo;
-                //accountTo.Balance += amount;
-                //accountService.CreateTransfer(transfer);
-                //accountService.SubtractBalance(accountFrom);
-                //accountService.SubtractBalance(accountTo);
+                
             }
             catch (Exception)
             {
 
                 throw;
             }
+        }
+        public void SendTEBucks(int accountToID, decimal amount)
+        {
+            try
+            {
+                TransferData transfer = new TransferData();
+                transfer.AccountFrom = UserService.GetUserId();
+                transfer.AccountTo = accountToID;
+                transfer.Amount = amount;
+                UserAccount accountFrom = accountService.GetAccount(transfer.AccountFrom);
+                accountFrom.UserID = transfer.AccountFrom;
+                UserAccount accountTo = accountService.GetAccount(transfer.AccountTo);
+                accountTo.UserID = transfer.AccountTo;
+                if (transfer.Amount <= accountFrom.Balance)
+                {
+                    accountTo.Balance += amount;
+                    accountFrom.Balance -= amount;
+                    accountService.CreateTransfer(transfer);
+                    accountService.UpdateBalance(accountFrom);
+                    accountService.UpdateBalance(accountTo);
+                }
+                else throw new Exception("There are not enough funds in your account.");
+            }
+            catch (Exception e)
+            {
+                
+            }
+            
         }
         public void ShowTransfers()
         {
@@ -127,9 +139,9 @@ namespace TenmoClient
                 Console.WriteLine($"Transfers");
                 Console.WriteLine($"ID".PadRight(10) + "From/To".PadRight(25) + "Amount".PadRight(10));
                 Console.WriteLine($"-------------------------------------------------------------");
-                List<Transfer> transfers = accountService.AllTransfers(accountService.GetAccount(UserService.GetUserId()).AccountId);
+                List<TransferData> transfers = accountService.AllTransfers(accountService.GetAccount(UserService.GetUserId()).AccountId);
                 { 
-                    foreach (Transfer transfer in transfers)
+                    foreach (TransferData transfer in transfers)
                     {
                         if (transfer.AccountTo == accountService.GetAccount(UserService.GetUserId()).AccountId)
                         {
@@ -156,14 +168,31 @@ namespace TenmoClient
                 Console.WriteLine($"-------------------------------------------------------------");
                 Console.WriteLine($"Transfer Details ");
                 Console.WriteLine($"-------------------------------------------------------------");
-                Transfer transfers = accountService.GetTransferByTransferID(userSelection);
+                TransferData transfers = accountService.GetTransferByTransferID(userSelection);
                 {
                     {
                         Console.WriteLine($"ID: " + (transfers.TransferId.ToString())); 
                         Console.WriteLine($"From: " + (accountService.GetUsersFromID(transfers.AccountFrom).Username.ToString()));
                         Console.WriteLine($"To: " + (accountService.GetUsersFromID(transfers.AccountTo).Username.ToString()));
-                        Console.WriteLine($"Type: " + (transfers.TransferTypeId.ToString()));
-                        Console.WriteLine($"Status: " + (transfers.TransferStatusId.ToString()));
+                        if(transfers.TransferTypeId == 1)
+                        {
+                            Console.WriteLine($"Type: Request");
+                        } else if(transfers.TransferTypeId == 2)
+                        {
+                            Console.WriteLine($"Type: Send");
+                        }
+                        if(transfers.TransferStatusId == 1)
+                        {
+                            Console.WriteLine($"Status: Pending");
+                        }
+                        else if (transfers.TransferStatusId == 2)
+                        {
+                            Console.WriteLine($"Status: Approved");
+                        }
+                        else if(transfers.TransferStatusId == 3)
+                        {
+                            Console.WriteLine($"Status: Rejected");
+                        }
                         Console.WriteLine($"Amount: " + (transfers.Amount.ToString("C"))); 
                     }
                 }
