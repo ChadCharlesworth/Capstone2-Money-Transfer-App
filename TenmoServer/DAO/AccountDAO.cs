@@ -80,7 +80,7 @@ namespace TenmoServer.DAO
             }
         }
 
-        public bool SubtractBalance(Account account)
+        public bool UpdateBalance(Account account)
         {
             try
             {

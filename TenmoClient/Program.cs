@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TenmoClient.Data;
 
 namespace TenmoClient
@@ -8,7 +9,7 @@ namespace TenmoClient
     {
         private static readonly ConsoleService consoleService = new ConsoleService();
         private static readonly AuthService authService = new AuthService();
-        private static readonly AccountService accountService = new AccountService(); 
+        private static readonly AccountService accountService = new AccountService();
 
         static void Main(string[] args)
         {
@@ -95,7 +96,13 @@ namespace TenmoClient
                 {
                     //View past transfers
                     consoleService.ShowTransfers();
-
+                    Console.WriteLine("Please enter transfer ID to view details (0 to cancel):");
+                    int userRespone = Convert.ToInt32(Console.ReadLine());
+                    if (userRespone == 0)
+                    {
+                        MenuSelection();
+                    }
+                    else consoleService.TransferDetails(userRespone);
                 }
                 else if (menuSelection == 3)
                 {
@@ -116,14 +123,20 @@ namespace TenmoClient
                     transfer.amount = amount;
                     accountFrom = accountService.GetAccount(transfer.accountFrom);
                     accountFrom.UserID = transfer.accountFrom;
-                    accountFrom.Balance -= amount;
                     accountTo = accountService.GetAccount(transfer.accountTo);
                     accountTo.UserID = transfer.accountTo;
-                    accountTo.Balance += amount;
-                    accountService.CreateTransfer(transfer);
-                    accountService.SubtractBalance(accountFrom);
-                    accountService.SubtractBalance(accountTo);
-
+                    if (transfer.amount <= accountFrom.Balance)
+                    {
+                        accountTo.Balance += amount;
+                        accountFrom.Balance -= amount;
+                        accountService.CreateTransfer(transfer);
+                        accountService.UpdateBalance(accountFrom);
+                        accountService.UpdateBalance(accountTo);
+                    }
+                    else if (transfer.amount > accountFrom.Balance)
+                    {
+                        return;
+                    }
                 }
                 else if (menuSelection == 5)
                 {
