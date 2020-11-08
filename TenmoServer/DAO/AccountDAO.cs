@@ -100,5 +100,31 @@ namespace TenmoServer.DAO
                 throw;
             }
         }
+
+
+
+        public bool CreateAccount(Account account)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sqlText = "insert in accounts VALUES (@user_id, @balance)";
+                    SqlCommand command = new SqlCommand(sqlText, connection);
+                    command.Parameters.AddWithValue("@user_id", account.UserId);
+                    command.Parameters.AddWithValue("@balance", account.Balance);
+                    return command.ExecuteNonQuery() > 0;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
+
+
+
