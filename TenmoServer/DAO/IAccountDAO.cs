@@ -13,5 +13,6 @@ namespace TenmoServer.DAO
         decimal UpdateBalance(int user_id,decimal amountChanged);
 
         bool CreateAccount(Account account);
+        bool UpdateBalance(Account account); 
     }
 }

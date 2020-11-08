@@ -43,7 +43,7 @@ namespace TenmoClient
             return response.Data;
         }
 
-        public decimal SubtractBalance(UserAccount account)
+        public decimal UpdateBalance(UserAccount account)
         {
                 RestRequest request = new RestRequest(API_BASE_URL + $"/users/{account.UserID}");
                 request.AddJsonBody(account);
@@ -85,6 +85,12 @@ namespace TenmoClient
             RestRequest request = new RestRequest(API_BASE_URL);
             request.AddJsonBody(account);
             IRestResponse<Account> response = client.Post<Account>(request);
+            return response.Data;
+        }
+        public Transfer GetTransferByTransferID(int transferId)
+        {
+            RestRequest request = new RestRequest(API_BASE_URL + $"/transfer/{transferId}");
+            IRestResponse<Transfer> response = client.Get<Transfer>(request);
             return response.Data;
         }
     }

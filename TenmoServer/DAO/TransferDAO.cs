@@ -39,11 +39,6 @@ namespace TenmoServer.DAO
             }
             
         }
-
-        
-
- 
-
         public bool SendTransfer(int transferID)
 
         {
@@ -72,10 +67,6 @@ namespace TenmoServer.DAO
             }
             catch (Exception)
             {
-
-
-
-
                 throw;
             }
         }
@@ -115,14 +106,14 @@ namespace TenmoServer.DAO
                 using(SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    SqlCommand command = new SqlCommand("select * from transfers where transfer_id = @transferID");
+                    SqlCommand command = new SqlCommand("select * from transfers where transfer_id = @transferID", conn);
                     command.Parameters.AddWithValue("@transferID", transferID);
                     SqlDataReader reader = command.ExecuteReader();
                     while(reader.Read())
                     {
                         transfer = GetTransferFromReader(reader);
                     }
-
+                    return transfer;
                 }
             }
             catch (Exception)
@@ -130,7 +121,7 @@ namespace TenmoServer.DAO
 
                 throw;
             }
-            return transfer;
+            //return transfer;
         }
 
         private Transfer GetTransferFromReader(SqlDataReader reader)
