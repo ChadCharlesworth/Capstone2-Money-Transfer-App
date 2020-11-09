@@ -35,54 +35,93 @@ namespace TenmoServer.Controllers
             if (account.Balance != 0)
             {
 
-                return account.Balance;
+                return Ok(account.Balance);
 
             }
-            else return Forbid();
-
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("users")]
-        public List<User> GetUsers()
+        public ActionResult<List<User>> GetUsers()
         {
             List<User> users = userDAO.GetUsers();
-            return users;
+            if (users != null)
+            {
+                return Ok(users);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
         [HttpGet("{userId}")]
-        public Account GetAccount(int userId)
+        public ActionResult<Account> GetAccount(int userId)
         {
             Account account = accountDAO.GetAccount(userId);
-            return account;
+            if(account != null)
+            {
+                return Ok(account);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
         [HttpGet("transfers/{userId}")]
-        public IList<Transfer> GetTransfers(int userId)
+        public ActionResult<IList<Transfer>> GetTransfers(int userId)
         {
             IList<Transfer> transfers = transferDAO.GetTransfers(userId);
-            return transfers;
+            if(transfers != null)
+            {
+                return Ok(transfers);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
-        [HttpPost("sendtransfers")]
+        [HttpPost("transfers")]
         public ActionResult<Transfer> TransferToUser(Transfer transfer)
         {
             Transfer output = transferDAO.CreateTransfer(transfer);
-
-            return output;
+            if (output != null)
+            {
+                return Created($"/transfers/{output.TransferId}",output);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPut("users/{account.UserID}")]
         public ActionResult<bool> UpdateBalance(Account account)
         {
-
             bool worked = accountDAO.UpdateBalance(account);
-            return worked;
+            
+            return Ok(worked);
         }
 
         [HttpGet("{userID}/users")]
         public ActionResult<User> GetSome(int userId)
         {
             User output = userDAO.GetUserFromID(userId);
-            return output; 
+            if (output != null)
+            {
+                return Ok(output);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
         [HttpPost]
@@ -95,7 +134,14 @@ namespace TenmoServer.Controllers
         public ActionResult<Transfer> GetTransferByTransferID(int transferId)
         {
             Transfer output = transferDAO.GetTransfer(transferId);
-            return output; 
+            if (output != null)
+            {
+                return Ok(output);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
