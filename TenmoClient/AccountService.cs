@@ -52,7 +52,7 @@ namespace TenmoClient
         public TransferData CreateTransfer(TransferData transfer)
         {
             client.Authenticator = new JwtAuthenticator(UserService.GetToken());
-            RestRequest request = new RestRequest(API_BASE_URL + "/sendtransfers");
+            RestRequest request = new RestRequest(API_BASE_URL + "/transfers");
             request.AddJsonBody(transfer); 
             IRestResponse<TransferData> response = client.Post<TransferData>(request);
             if (response.ResponseStatus != ResponseStatus.Completed || !response.IsSuccessful)
