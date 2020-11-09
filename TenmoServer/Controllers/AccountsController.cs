@@ -13,7 +13,7 @@ namespace TenmoServer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IUserDAO userDAO;
