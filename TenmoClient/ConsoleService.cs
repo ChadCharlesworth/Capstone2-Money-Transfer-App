@@ -94,7 +94,7 @@ namespace TenmoClient
                     Console.WriteLine($"{user.UserId}           {user.Username}");
                 }
                 Console.WriteLine($"----------------------");
-                Console.WriteLine($"Enter ID of user you are sending to");
+                Console.WriteLine($"Enter ID of user you are sending to:");
                 
             }
             catch (Exception)
